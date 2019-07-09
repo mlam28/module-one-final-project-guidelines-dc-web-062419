@@ -12,9 +12,9 @@ def greeting
         #     "Welcome back, #{user.name}"
 end
 
-def user_name(name)
-    User.create(name: "#{name}")
-end
+# def user_name(name)
+#     User.create(name: "#{name}")
+# end
 
 
 def create_pet(user)
@@ -24,16 +24,52 @@ def create_pet(user)
     puts "Congrats! You are now the owner of #{pet_name}!"
 end
 
+def locate_or_create_pet(user)
+        if Pet.find_pet_by_user(user).nil?
+                create_pet(user)
+        else
+                pet = Pet.find_pet_by_user(user)
+                puts "Welcome back, #{user.name}. #{pet.name} has missed you!"
+        end
+        
+
+end
+
+def instructions
+        puts "Enter the number corresponding to the action you would to perform?"
+        puts "1. Stats"
+        puts "2. Feed"
+        puts "3. Play"
+end
+
+def game_options(input)
+        if input == 1
+                puts ""
+
+        
+end
+
+def print_skill_level
+end
+
+def pet_status(pet)
+        puts "Name: #{pet.name }"
+        puts "Happiness: #{pet.happiness}"
+        puts "Hunger: #{pet.hunger}"
+end
+
 
 
 
 def run
     greeting
     name = gets.chomp
-    user_name(name)
-    user = User.find_by(name: "#{name}")
-    create_pet(user)
-    pet = Pet.find_pet_by_user(user)
+    user = User.find_or_create_by(name: "#{name}")
+    locate_or_create_pet(user)
+    pet = Pet.find_by(name: "#{user.name}")
+    instructions
+    input = gets.chomp
+    game_options(input)
 end
 
 run
