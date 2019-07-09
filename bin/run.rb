@@ -17,12 +17,11 @@ def user_name(name)
 end
 
 
-
 def create_pet(user)
     puts "If you would like to create a pet, please enter a name for your new companion."
     pet_name = gets.chomp
     pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
-
+    puts "Congrats! You are now the owner of #{pet_name}!"
 end
 
 
@@ -35,6 +34,7 @@ def run
     user_name(name)
     user = User.find_by(name: "#{name}")
     create_pet(user)
+    pet = Pet.find_pet_by_user(user)
 end
 
 run
