@@ -1,7 +1,7 @@
 require "pry"
 class User < ActiveRecord::Base
-    has_many :pets
-    has_many :skills, through: :pets
+    has_one :pet
+    has_many :skills, through: :pet
     
     def self.create_user(name)
         User.create(name: "#{name}") 

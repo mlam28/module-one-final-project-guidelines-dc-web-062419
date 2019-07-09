@@ -45,7 +45,7 @@ end
 def game_options(input)
         if input == 1
                 puts ""
-
+        end
         
 end
 
@@ -66,8 +66,12 @@ def run
     name = gets.chomp
     user = User.find_or_create_by(name: "#{name}")
     locate_or_create_pet(user)
-    pet = Pet.find_by(name: "#{user.name}")
+    pet = Pet.find_pet_by_user(user)
+    binding.pry
     instructions
+    #Pet.find_pet_skills(user)
+    Pet.find_highest_skill(user)
+    #binding.pry
     input = gets.chomp
     game_options(input)
 end

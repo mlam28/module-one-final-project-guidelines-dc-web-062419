@@ -1,4 +1,4 @@
-class Pet_Skill < ActiveRecord::Base
+class PetSkill < ActiveRecord::Base
     belongs_to :pet 
     belongs_to :skill
 end
