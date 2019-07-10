@@ -35,23 +35,30 @@ class Pet < ActiveRecord::Base
         self.happiness += 5
       end
       puts "Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}"
-      instructions
-      input = gets.chomp
-      game_options(input, self.user)
+      game_options(self.user)
     end
 
     def make_hungry
+      self.hunger -= 5
+      self.die?
+    end
 
+    def make_unhappy
+      self.happiness -= 5
+      self.die?
     end
 
     def play
       Question1.start_quiz1
     end
 
-    def die
-      if self.happiness == 0 or self.hunger == 0
+    def die?
+      if self.happiness < 0 || self.hunger < 0
         self.delete
+        puts "Your pet has died due to hunger or depression."
+        exit
       end
+      puts "Your current hunger level is #{self.hunger}, happiness is #{self.happiness}."
     end
     
 end
