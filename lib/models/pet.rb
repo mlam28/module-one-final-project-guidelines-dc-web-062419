@@ -45,8 +45,13 @@ class Pet < ActiveRecord::Base
     end
 
     def play
-      
+      Question1.start_quiz1
     end
 
+    def die
+      if self.happiness == 0 or self.hunger == 0
+        self.delete
+      end
+    end
     
 end
