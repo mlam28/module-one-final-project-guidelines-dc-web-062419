@@ -18,6 +18,35 @@ class Pet < ActiveRecord::Base
     end
   end
 
-    
+    def feed
+      current_hunger = self.hunger
+      current_happiness = self.happiness
+      new_hunger = current_hunger += 5
+      new_happiness = current_happiness += 5
+     
+      if new_hunger > 25
+        self.hunger = 25
+      elsif new_hunger += 5 <= 25
+        self.hunger += 5
+      end
+      if new_happiness > 25
+        self.happiness = 25
+      elsif new_happiness <= 25
+        self.happiness += 5
+      end
+      puts "Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}"
+      instructions
+      input = gets.chomp
+      game_options(input, self.user)
+    end
+
+    def make_hungry
+
+    end
+
+    def play
+      
+    end
+
     
 end
