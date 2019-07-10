@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     end
 
     def find_pet_skills
-        user.pet.find_pet_skills 
+        self.pet.pet_skills 
     end
 
     def list_skills
@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
         end
     end
 
+    def find_highest_skill #returns highest skill_id
+        self.pet.pet_skills.maximum("skill_id")
+    end
     def self.delete_all
         self.delete_all
     end

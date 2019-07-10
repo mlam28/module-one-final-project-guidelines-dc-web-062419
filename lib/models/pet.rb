@@ -13,7 +13,7 @@ class Pet < ActiveRecord::Base
     end
 
     def self.list_pet_skills(user)
-      user.find_pet_skills.map do |pet_skill|
+      self.find_pet_skills(user).map do |pet_skill|
         pet_skill.skill_name
     end
   end
