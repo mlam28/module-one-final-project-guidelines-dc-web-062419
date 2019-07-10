@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190709185232) do
+ActiveRecord::Schema.define(version: 20190709183200) do
 
   create_table "pet_skills", force: :cascade do |t|
     t.integer "skill_id"
+    t.string  "skill_name"
     t.integer "pet_id"
   end
 
@@ -25,7 +26,7 @@ ActiveRecord::Schema.define(version: 20190709185232) do
   end
 
   create_table "skills", force: :cascade do |t|
-    t.string "skill"
+    t.string "name"
   end
 
   create_table "users", force: :cascade do |t|

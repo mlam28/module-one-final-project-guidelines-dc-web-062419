@@ -4,23 +4,20 @@ class Pet < ActiveRecord::Base
     has_many :pet_skills
     has_many :skills, through: :pet_skills
 
-    def self.find_pet_by_user(user)
+    def self.find_pet_by_user(user)   #class method to find pet by user instance
        Pet.find_by(user_id: user.id)
     end
     
-    def self.find_pet_skills(user)
-      pet =  self.find_pet_by_user(user)
-      pet.pet_skills
+    def self.find_pet_skills(user)     #uses above method to find pet skills by passing in user instance
+      user.pet.pet_skills
     end
 
-    def self.find_skill_ids(user)
-      skill_ids = self.find_pet_skills(user).map do |pet_skill|
-      pet_skill.skill_id  
-      end
-      skill_ids.each do |id|
-      PetSkill.all.select do |pet_skill|
-         pet_skill.skill_id == id
-        end
-      end
+    def self.list_pet_skills(user)
+      user.find_pet_skills.map do |pet_skill|
+        pet_skill.skill_name
     end
+  end
+
+    
+    
 end

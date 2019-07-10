@@ -66,8 +66,10 @@ def run
     name = gets.chomp
     user = User.find_or_create_by(name: "#{name}")
     locate_or_create_pet(user)
-    pet = Pet.find_pet_by_user(user)
+    pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
+    Pet.list_pet_skills(user)
     binding.pry
+    #prints user.list_skills
     instructions
     #Pet.find_pet_skills(user)
     Pet.find_highest_skill(user)

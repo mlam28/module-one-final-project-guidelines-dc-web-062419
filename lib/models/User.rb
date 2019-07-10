@@ -7,7 +7,19 @@ class User < ActiveRecord::Base
         User.create(name: "#{name}") 
     end
 
-  
+    def find_pet
+        user.pet
+    end
+
+    def find_pet_skills
+        user.pet.find_pet_skills 
+    end
+
+    def list_skills
+        self.find_pet_skills.map do |pet_skill|
+            pet_skill.skill_name
+        end
+    end
 
     def self.delete_all
         self.delete_all
