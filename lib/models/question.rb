@@ -15,10 +15,11 @@ class Question < ActiveRecord::Base
         questions = []
           self.all.each do |question|
             if question.difficulty == level 
-              puts question.question 
+              puts "Enter the letter that matches your choice."
+              puts question.question
               questions << question
               loop do
-                answer = gets.chomp
+                answer = gets.chomp.downcase
                 break if answer == "a" || answer == "b" || answer == "c"
                 puts "Enter a valid input"
               end

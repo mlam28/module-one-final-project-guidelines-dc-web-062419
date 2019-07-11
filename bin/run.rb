@@ -140,7 +140,7 @@ def run
         user = User.find_by(name: "#{input}")
         if user != nil
          puts "Welcome back, #{user.name}"
-     
+        puts "************************************"
          locate_or_create_pet(user)
         #  instructions
          game_options(user)
@@ -155,6 +155,9 @@ def run
         end
      
      end
+
+     
+
 
 a = Artii::Base.new :font => 'big'
 puts Rainbow(a.asciify('Tamagotchi Pets')).blue.bright.blink
