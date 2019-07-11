@@ -19,7 +19,7 @@ end
 
 def create_pet(user)
     puts "If you would like to create a pet, please enter a name for your new companion."
-    pet_name = gets.chomp
+    pet_name = gets.chomp.capitalize
     pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
     puts "Congrats! You are now the owner of #{pet_name}!"
 end
@@ -36,7 +36,7 @@ def locate_or_create_pet(user)
 end
 
 def instructions
-        puts "Enter the number corresponding to the action you would to perform?"
+        puts "Enter the number corresponding to the action you would like to perform?"
         puts "1. Pet Status"
         puts "2. Feed"
         puts "3. Play"
@@ -48,7 +48,8 @@ def exit
  puts "Goodbye!"
 end
 
-def game_options(input, user)
+def game_options(user)
+        input = validate_input
         if input == "1"
                 pet_status(user.pet)
         elsif input == "2"
@@ -79,38 +80,24 @@ def print_all_skills(user)
         end
 end
 
+def redirect(user)
+        instructions
+        new_input = gets.chomp
+        game_options(new_input, user)
+end
+
+
 def  print_skill_level(user)
        level = user.find_highest_skill
+       if level.nil?
+        game_options(user)
+       else
       highest_skill_name = Skill.find_by(id: level).name
         puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
         instructions
-        input = gets.chomp
-        game_options(input, user)
-        # puts "If you would like a chance to level up, type #{level += 1} to play quiz."
-        # puts "Type 'menu' to return to menu options, or 'exit' to exit out of the game." 
-#        loop do 
-#         input = gets.chomp
-#         break if input == "menu" || input == "exit" || input == 1 || 2 || 3 || 4 || 5
-#                 if input == "menu"
-#                 instructions
-#                 new_input = gets.chomp.to_i
-#                 game_options(new_input, user)
-#                 elsif input == "exit"
-#                         exit
-#                 elsif input == 1 || 2 || `3 || 4 || 5
-#                         "go to game"
-#                 end
-        # break if input == "exit"
-        #         exit
-        #         break
-        # elsif input == 1 || 2 || 3 || 4 || 5
-        #        puts "number ranges work"
-        #        break
-        #        puts "it ended"
-        # else
-        #         puts "Please enter a valid command."
-        # end
-        # end
+        game_options(user)
+       end
+       
 end
 
 def pet_status(pet)
@@ -118,31 +105,67 @@ def pet_status(pet)
         puts "Happiness: #{pet.happiness}"
         puts "Hunger: #{pet.hunger}"
         instructions
-        input = gets.chomp
-        game_options(input, pet.user)
+        game_options(pet.user)
 end
 
-
+def validate_input
+        input = gets.chomp
+        while !(1..5).include?(input.to_i)
+                puts "Please Enter a Valid Option"
+                input = gets.chomp
+        end
+        input
+end
 
 
 def run
     greeting
-    name = gets.chomp
-    user = User.find_or_create_by(name: "#{name}")
-    locate_or_create_pet(user)
-    pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
+    input = gets.chomp.capitalize
    # binding.pry
-    instructions
-    input = gets.chomp
-    #binding.pry
-    game_options(input, user)
+    user = User.find_by(name: "#{input}")
+    if user != nil
+     puts "Welcome back, #{user.name}"
+     instructions
+     game_options(user)
+    end
+    if user == nil
+     puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
+        #confirm = gets.chomp
+        #validate_name(confirm)
+      user = correct(input)
+      if !user.nil?
+      locate_or_create_pet(user)
+      instructions
+      game_options(user)
+      end
+    end
+    #name = gets.chomp
+    
+    #pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
+#     instructions
+#     game_options(user)
 end
 
+
+
+
+def validate_name
+        confirm = gets.chomp
+        while !["yes", "exit"].include?(confirm)
+                puts "Type yes to confirm #{confirm}. 'exit' to exit."
+                confirm = gets.chomp
+        end
+        confirm
+end
+
+def correct(input)
+        confirm = validate_name
+        if confirm == "yes"
+                User.create(name: "#{input}")
+        elsif confirm == "exit"
+                exit
+        end
+        User.find_by(name: "#{input}")
+end
 run
 
-# def game_instructions_options
-# while input
-#         input = gets.chomp
-#         instructions
-
-# end
