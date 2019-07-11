@@ -27,10 +27,9 @@ class Pet < ActiveRecord::Base
       current_happiness = self.happiness
       new_hunger = current_hunger += 5
       new_happiness = current_happiness += 5
-     #binding.pry
       if new_hunger > 25
         self.hunger = 25
-      elsif new_hunger + 5 <= 25
+      elsif new_hunger <= 25
         self.hunger += 5
       end
       if new_happiness > 25
@@ -44,7 +43,6 @@ class Pet < ActiveRecord::Base
 
     def level_up(level)
       new = Skill.find_by(id: level)
-      #binding.pry
       PetSkill.create(skill_id: new.id, skill_name: new.name, pet_id: self.id)
     end
 
@@ -68,9 +66,8 @@ class Pet < ActiveRecord::Base
     def die?
       if self.happiness < 1 || self.hunger < 1
         self.delete
-        puts "Your pet has died due to hunger or depression."
+        puts "Sorry, your pet has died due to hunger or depression. You should take better care of it."
         exit
-       return false
       else
       puts "Your current hunger level is #{self.hunger}, happiness is #{self.happiness}."
     end

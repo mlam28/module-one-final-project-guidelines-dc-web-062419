@@ -3,18 +3,10 @@ require "pry"
 
 def greeting
     puts "Welcome to Tamagotchi pets!  Please enter your name."
-    # name = gets.chomp
-    # user = User.find_by(name: "#{name}") 
-        # if user == nil
-        #     new_user = User.create_user(name)
-        #     "You are about to become a pet owner! Congrats, #{name}!"
-        # else 
-        #     "Welcome back, #{user.name}"
+ 
 end
 
-# def user_name(name)
-#     User.create(name: "#{name}")
-# end
+
 
 
 def create_pet(user)
@@ -72,7 +64,6 @@ def print_all_skills(user)
         last = user.list_skills.pop
        if user.find_pet_skills.nil?
         puts "You currently have no skills."
-       #binding.pry
        elsif user.list_skills.length < 1 
         puts "You currently have no skills."
        elsif user.list_skills.length == 1
@@ -125,29 +116,24 @@ end
 def run
     greeting
     input = gets.chomp.capitalize
-   # binding.pry
+   
     user = User.find_by(name: "#{input}")
     if user != nil
      puts "Welcome back, #{user.name}"
+
      locate_or_create_pet(user)
      instructions
      game_options(user)
     end
     if user == nil
      puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
-        #confirm = gets.chomp
-        #validate_name(confirm)
+        
       user = correct(input)
       locate_or_create_pet(user)
        instructions
        game_options(user)
-#       end
     end
-    #name = gets.chomp
-    
-    #pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
-#     instructions
-#     game_options(user)
+   
 end
 
 
