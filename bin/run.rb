@@ -1,5 +1,7 @@
 require_relative '../config/environment'
 require "pry"
+require 'artii'
+
 
 def greeting
     puts "Welcome to Tamagotchi pets!  Please enter your name."
@@ -48,17 +50,20 @@ def exit
  puts "Goodbye!"
 end
 
-def game_options(input, user)
-        if input == "1"
+def game_options(user)
+        prompt = TTY::Prompt.new
+        # binding.pry
+        input = prompt.select("Please select the action you would like to perform. ", %w(Pet-Status Feed Play Skills&Level Exit ))
+        if input == "Pet-Status"
                 pet_status(user.pet)
-        elsif input == "2"
+        elsif input == "Feed"
                 user.pet.feed
-        elsif input == "3"
+        elsif input == "Play"
                 user.pet.play
-        elsif input == "4"
+        elsif input == "Skills&Level"
                 print_all_skills(user)
                 print_skill_level(user)
-        elsif input == "5"
+        elsif input == "Exit"
                 exit
         else
         "Please enter a valid command."
@@ -83,8 +88,6 @@ def  print_skill_level(user)
        level = user.find_highest_skill
       highest_skill_name = Skill.find_by(id: level).name
         puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
-        instructions
-        input = gets.chomp
         game_options(input, user)
         # puts "If you would like a chance to level up, type #{level += 1} to play quiz."
         # puts "Type 'menu' to return to menu options, or 'exit' to exit out of the game." 
@@ -117,28 +120,35 @@ def pet_status(pet)
         puts "Name: #{pet.name }"
         puts "Happiness: #{pet.happiness}"
         puts "Hunger: #{pet.hunger}"
-        instructions
-        input = gets.chomp
-        game_options(input, pet.user)
+        game_options(pet.user)
 end
 
 
 
 
 def run
+
     greeting
     name = gets.chomp
     user = User.find_or_create_by(name: "#{name}")
     locate_or_create_pet(user)
     pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
    # binding.pry
-    instructions
-    input = gets.chomp
+#     instructions
+#     input = gets.chomp
     #binding.pry
-    game_options(input, user)
+    game_options(user)
 end
 
+# prompt = TTY::Prompt.new
+# a = prompt.select("Choose your destiny?", %w(Scorpion Kano Jax))
+# if a == "Jax"
+#         puts "Hello"
+# end
+a = Artii::Base.new :font => 'big'
+puts Rainbow(a.asciify('Tamagotchi Pets')).blue.bright.blink
 run
+
 
 # def game_instructions_options
 # while input
