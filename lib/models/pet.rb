@@ -18,6 +18,10 @@ class Pet < ActiveRecord::Base
     end
   end
 
+  def add_pet_skill(user, skill)
+    PetSkill.create(skill_id: skill.id, skill_name: skill.name, pet_id: self.id)
+  end
+
     def feed
       current_hunger = self.hunger
       current_happiness = self.happiness

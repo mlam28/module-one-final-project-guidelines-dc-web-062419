@@ -19,7 +19,7 @@ end
 
 def create_pet(user)
     puts "If you would like to create a pet, please enter a name for your new companion."
-    pet_name = gets.chomp
+    pet_name = gets.chomp.capitalize
     pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
     puts "Congrats! You are now the owner of #{pet_name}!"
 end
@@ -97,31 +97,7 @@ def  print_skill_level(user)
         instructions
         game_options(user)
        end
-        # puts "If you would like a chance to level up, type #{level += 1} to play quiz."
-        # puts "Type 'menu' to return to menu options, or 'exit' to exit out of the game." 
-#        loop do 
-#         input = gets.chomp
-#         break if input == "menu" || input == "exit" || input == 1 || 2 || 3 || 4 || 5
-#                 if input == "menu"
-#                 instructions
-#                 new_input = gets.chomp.to_i
-#                 game_options(new_input, user)
-#                 elsif input == "exit"
-#                         exit
-#                 elsif input == 1 || 2 || `3 || 4 || 5
-#                         "go to game"
-#                 end
-        # break if input == "exit"
-        #         exit
-        #         break
-        # elsif input == 1 || 2 || 3 || 4 || 5
-        #        puts "number ranges work"
-        #        break
-        #        puts "it ended"
-        # else
-        #         puts "Please enter a valid command."
-        # end
-        # end
+       
 end
 
 def pet_status(pet)
@@ -144,18 +120,52 @@ end
 
 def run
     greeting
-    name = gets.chomp
-    user = User.find_or_create_by(name: "#{name}")
-    locate_or_create_pet(user)
-    pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
-    instructions
-    game_options(user)
+    input = gets.chomp.capitalize
+   # binding.pry
+    user = User.find_by(name: "#{input}")
+    if user != nil
+     puts "Welcome back, #{user.name}"
+     instructions
+     game_options(user)
+    end
+    if user == nil
+     puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
+        #confirm = gets.chomp
+        #validate_name(confirm)
+      user = correct(input)
+      if !user.nil?
+      locate_or_create_pet(user)
+      instructions
+      game_options(user)
+      end
+    end
+    #name = gets.chomp
+    
+    #pet = Pet.find_pet_by_user(user) #might be able to delete this if redundant
+#     instructions
+#     game_options(user)
 end
 
 
 
-def validate_name(name)
 
+def validate_name
+        confirm = gets.chomp
+        while !["yes", "exit"].include?(confirm)
+                puts "Type yes to confirm #{confirm}. 'exit' to exit."
+                confirm = gets.chomp
+        end
+        confirm
+end
+
+def correct(input)
+        confirm = validate_name
+        if confirm == "yes"
+                User.create(name: "#{input}")
+        elsif confirm == "exit"
+                exit
+        end
+        User.find_by(name: "#{input}")
 end
 run
 
