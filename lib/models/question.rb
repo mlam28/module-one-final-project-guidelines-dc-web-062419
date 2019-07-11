@@ -41,7 +41,7 @@ class Question < ActiveRecord::Base
           if user.pet.die? == true
             return
           end
-          instructions
+          # instructions
           game_options(user)
         else
           user.pet.make_unhappy
@@ -56,7 +56,7 @@ class Question < ActiveRecord::Base
            self.start_quiz(user)
           else 
             puts "returning to main menu"
-            instructions
+            # instructions
             game_options(user)
           end
         end

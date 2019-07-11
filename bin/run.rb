@@ -36,7 +36,9 @@ def instructions
 end
 
 def exit
- puts "Goodbye!"
+        goodbye = Artii::Base.new :font => 'big'
+        puts Rainbow(goodbye.asciify('Goodbye')).orange.bright.blink
+        puts "Goodbye!"
  true
 end
 
@@ -49,14 +51,13 @@ def game_options(user)
         elsif input == "Feed"
                 user.pet.feed
         elsif input == "Play"
+                # binding.pry
                 user.pet.play
         elsif input == "Skills&Level"
                 print_all_skills(user)
                 print_skill_level(user)
         elsif input == "Exit"
                 exit
-        else
-        "Please enter a valid command."
         end
 end
 
@@ -141,7 +142,7 @@ def run
          puts "Welcome back, #{user.name}"
      
          locate_or_create_pet(user)
-         instructions
+        #  instructions
          game_options(user)
         end
         if user == nil
@@ -149,7 +150,7 @@ def run
      
           user = correct(input)
           locate_or_create_pet(user)
-           instructions
+        #    instructions
            game_options(user)
         end
      
