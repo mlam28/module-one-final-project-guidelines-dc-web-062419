@@ -53,7 +53,7 @@ class Pet < ActiveRecord::Base
     end
 
     def play
-      Question1.start_quiz1
+      Question.start_quiz(user)
     end
 
     def die?
