@@ -38,7 +38,7 @@ end
 def exit
         goodbye = Artii::Base.new :font => 'big'
         puts Rainbow(goodbye.asciify('Goodbye')).orange.bright.blink
-        puts "Goodbye!"
+        
  true
 end
 
@@ -88,7 +88,7 @@ def print_all_skills(user)
         else
        highest_skill_name = Skill.find_by(id: level).name
          puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
-         instructions
+    
          game_options(user)
         end
   
