@@ -18,7 +18,7 @@ end
 
 
 def create_pet(user)
-    puts "If you would like to create a pet, please enter a name for your new companion."
+    puts "Please enter a name for your new companion."
     pet_name = gets.chomp.capitalize
     pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
     puts "Congrats! You are now the owner of #{pet_name}!"
@@ -29,7 +29,7 @@ def locate_or_create_pet(user)
                 create_pet(user)
         else
                 pet = Pet.find_pet_by_user(user)
-                puts "Welcome back, #{user.name}. #{pet.name} has missed you!"
+                puts "#{pet.name} has missed you!"
         end
         
 
@@ -46,6 +46,7 @@ end
 
 def exit
  puts "Goodbye!"
+ true
 end
 
 def game_options(user)
@@ -68,8 +69,11 @@ end
 
 
 def print_all_skills(user)
-       last = user.list_skills.pop
-       if user.list_skills.length < 1
+        last = user.list_skills.pop
+       if user.find_pet_skills.nil?
+        puts "You currently have no skills."
+       #binding.pry
+       elsif user.list_skills.length < 1 
         puts "You currently have no skills."
        elsif user.list_skills.length == 1
         puts "Skills: #{user.list_skills[0]}."
@@ -125,6 +129,7 @@ def run
     user = User.find_by(name: "#{input}")
     if user != nil
      puts "Welcome back, #{user.name}"
+     locate_or_create_pet(user)
      instructions
      game_options(user)
     end
@@ -133,11 +138,10 @@ def run
         #confirm = gets.chomp
         #validate_name(confirm)
       user = correct(input)
-      if !user.nil?
       locate_or_create_pet(user)
-      instructions
-      game_options(user)
-      end
+       instructions
+       game_options(user)
+#       end
     end
     #name = gets.chomp
     
@@ -161,7 +165,8 @@ end
 def correct(input)
         confirm = validate_name
         if confirm == "yes"
-                User.create(name: "#{input}")
+              User.create(name: "#{input}")
+
         elsif confirm == "exit"
                 exit
         end
