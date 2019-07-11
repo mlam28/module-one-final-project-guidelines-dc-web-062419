@@ -11,7 +11,6 @@ class Question < ActiveRecord::Base
      
         answer = ""
         score = 0
-        count = 0
         questions = []
           self.all.each do |question|
             if question.difficulty == level 
@@ -36,6 +35,7 @@ class Question < ActiveRecord::Base
         if score == questions.length 
           puts "You got #{score} out of #{questions.length} right! #{user.pet.name} has leveled up to Level #{level}!"
           user.pet.level_up(level)
+          binding.pry
           user.pet.make_unhappy
           user.pet.make_hungry
           if user.pet.die? == true

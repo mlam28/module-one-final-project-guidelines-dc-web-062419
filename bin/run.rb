@@ -24,7 +24,6 @@ def locate_or_create_pet(user)
                 puts "#{pet.name} has missed you!"
         end
         
-
 end
 
 def instructions
@@ -75,11 +74,11 @@ def print_all_skills(user)
         end
 end
 
-def redirect(user)
-        instructions
-        new_input = gets.chomp
-        game_options(new_input, user)
-end
+# def redirect(user)
+#         instructions
+#         new_input = gets.chomp
+#         game_options(new_input, user)
+# end
 
 
 def  print_skill_level(user)
