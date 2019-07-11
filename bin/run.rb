@@ -1,20 +1,19 @@
 require_relative '../config/environment'
 require "pry"
+require 'artii'
+
 
 def greeting
     puts "Welcome to Tamagotchi pets!  Please enter your name."
- 
 end
-
-
-
 
 def create_pet(user)
-    puts "Please enter a name for your new companion."
-    pet_name = gets.chomp.capitalize
-    pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
-    puts "Congrats! You are now the owner of #{pet_name}!"
-end
+        puts "Please enter a name for your new companion."
+        pet_name = gets.chomp.capitalize
+        pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
+        puts "Congrats! You are now the owner of #{pet_name}!"
+     end
+
 
 def locate_or_create_pet(user)
         if Pet.find_pet_by_user(user).nil?
@@ -23,12 +22,12 @@ def locate_or_create_pet(user)
                 pet = Pet.find_pet_by_user(user)
                 puts "#{pet.name} has missed you!"
         end
-        
-
-end
+ 
+ 
+end    
 
 def instructions
-        puts "Enter the number corresponding to the action you would like to perform?"
+        puts "Enter the number corresponding to the action you would to perform?"
         puts "1. Pet Status"
         puts "2. Feed"
         puts "3. Play"
@@ -42,17 +41,19 @@ def exit
 end
 
 def game_options(user)
-        input = validate_input
-        if input == "1"
+        prompt = TTY::Prompt.new
+        # binding.pry
+        input = prompt.select("Please select the action you would like to perform.", %w(Pet-Status Feed Play Skills&Level Exit ))
+        if input == "Pet-Status"
                 pet_status(user.pet)
-        elsif input == "2"
+        elsif input == "Feed"
                 user.pet.feed
-        elsif input == "3"
+        elsif input == "Play"
                 user.pet.play
-        elsif input == "4"
+        elsif input == "Skills&Level"
                 print_all_skills(user)
                 print_skill_level(user)
-        elsif input == "5"
+        elsif input == "Exit"
                 exit
         else
         "Please enter a valid command."
@@ -60,11 +61,12 @@ def game_options(user)
 end
 
 
+
 def print_all_skills(user)
         last = user.list_skills.pop
        if user.find_pet_skills.nil?
         puts "You currently have no skills."
-       elsif user.list_skills.length < 1 
+       elsif user.list_skills.length < 1
         puts "You currently have no skills."
        elsif user.list_skills.length == 1
         puts "Skills: #{user.list_skills[0]}."
@@ -73,33 +75,28 @@ def print_all_skills(user)
        else
         puts "Skills: #{user.list_skills[0...-1].join(", ")}, and #{last}."
         end
-end
-
-def redirect(user)
-        instructions
-        new_input = gets.chomp
-        game_options(new_input, user)
-end
+ end
 
 
-def  print_skill_level(user)
-       level = user.find_highest_skill
-       if level.nil?
-        game_options(user)
-       else
-      highest_skill_name = Skill.find_by(id: level).name
-        puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
-        instructions
-        game_options(user)
-       end
-       
-end
+
+
+ def  print_skill_level(user)
+        level = user.find_highest_skill
+        if level.nil?
+         game_options(user)
+        else
+       highest_skill_name = Skill.find_by(id: level).name
+         puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
+         instructions
+         game_options(user)
+        end
+  
+  end
 
 def pet_status(pet)
         puts "Name: #{pet.name }"
         puts "Happiness: #{pet.happiness}"
         puts "Hunger: #{pet.hunger}"
-        instructions
         game_options(pet.user)
 end
 
@@ -110,53 +107,56 @@ def validate_input
                 input = gets.chomp
         end
         input
-end
+ end
 
-
-def run
-    greeting
-    input = gets.chomp.capitalize
-   
-    user = User.find_by(name: "#{input}")
-    if user != nil
-     puts "Welcome back, #{user.name}"
-
-     locate_or_create_pet(user)
-     instructions
-     game_options(user)
-    end
-    if user == nil
-     puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
-        
-      user = correct(input)
-      locate_or_create_pet(user)
-       instructions
-       game_options(user)
-    end
-   
-end
-
-
-
-
-def validate_name
+ def validate_name
         confirm = gets.chomp
         while !["yes", "exit"].include?(confirm)
                 puts "Type yes to confirm #{confirm}. 'exit' to exit."
                 confirm = gets.chomp
         end
         confirm
-end
-
-def correct(input)
+ end
+ 
+ def correct(input)
         confirm = validate_name
         if confirm == "yes"
               User.create(name: "#{input}")
-
+ 
         elsif confirm == "exit"
                 exit
         end
         User.find_by(name: "#{input}")
-end
+ end
+ 
+
+
+
+def run
+        greeting
+        input = gets.chomp.capitalize
+     
+        user = User.find_by(name: "#{input}")
+        if user != nil
+         puts "Welcome back, #{user.name}"
+     
+         locate_or_create_pet(user)
+         instructions
+         game_options(user)
+        end
+        if user == nil
+         puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
+     
+          user = correct(input)
+          locate_or_create_pet(user)
+           instructions
+           game_options(user)
+        end
+     
+     end
+
+a = Artii::Base.new :font => 'big'
+puts Rainbow(a.asciify('Tamagotchi Pets')).blue.bright.blink
 run
+
 
