@@ -14,10 +14,11 @@ class Question < ActiveRecord::Base
         questions = []
           self.all.each do |question|
             if question.difficulty == level 
-              puts question.question 
+              puts "Enter the letter that matches your choice."
+              puts question.question
               questions << question
               loop do
-                answer = gets.chomp
+                answer = gets.chomp.downcase
                 break if answer == "a" || answer == "b" || answer == "c"
                 puts "Enter a valid input"
               end
@@ -41,7 +42,7 @@ class Question < ActiveRecord::Base
           if user.pet.die? == true
             return
           end
-          instructions
+          # instructions
           game_options(user)
         else
           user.pet.make_unhappy
@@ -56,7 +57,7 @@ class Question < ActiveRecord::Base
            self.start_quiz(user)
           else 
             puts "returning to main menu"
-            instructions
+            # instructions
             game_options(user)
           end
         end
