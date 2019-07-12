@@ -27,31 +27,29 @@ def locate_or_create_pet(user)
 end    
 
 def instructions
-        puts "Enter the number corresponding to the action you would to perform?"
-        puts "1. Pet Status"
-        puts "2. Feed"
-        puts "3. Play"
-        puts "4. Skills and Level Status"
-        puts "5. Exit game."
+        puts ""
+        # puts "Enter the number corresponding to the action you would to perform?"
+        # puts "1. Pet Status"
+        # puts "2. Feed"
+        # puts "3. Play"
+        # puts "4. Skills and Level Status"
+        # puts "5. Exit game."
 end
 
 def exit
         goodbye = Artii::Base.new :font => 'big'
         puts Rainbow(goodbye.asciify('Goodbye')).orange.bright.blink
-        
  true
 end
 
 def game_options(user)
         prompt = TTY::Prompt.new
-        # binding.pry
         input = prompt.select("Please select the action you would like to perform.", %w(Pet-Status Feed Play Skills&Level Exit ))
         if input == "Pet-Status"
                 pet_status(user.pet)
         elsif input == "Feed"
                 user.pet.feed
         elsif input == "Play"
-                # binding.pry
                 user.pet.play
         elsif input == "Skills&Level"
                 print_all_skills(user)
@@ -136,24 +134,19 @@ def validate_input
 def run
         greeting
         input = gets.chomp.capitalize
-     
         user = User.find_by(name: "#{input}")
         if user != nil
          puts "Welcome back, #{user.name}"
         puts "************************************"
          locate_or_create_pet(user)
-        #  instructions
          game_options(user)
         end
         if user == nil
          puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
-     
           user = correct(input)
           locate_or_create_pet(user)
-        #    instructions
            game_options(user)
         end
-     
      end
 
      
