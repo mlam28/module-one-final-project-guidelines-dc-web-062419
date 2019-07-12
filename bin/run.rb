@@ -13,7 +13,18 @@ def create_pet(user)
         puts "Please enter a name for your new companion."
         pet_name = gets.chomp.capitalize
         pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
-        puts "Congrats! You are now the owner of #{pet_name}!"
+        puts Rainbow("Congrats! You are now the owner of #{pet_name}!").blue.bright
+        pikachu = <<-HEREDOC
+      _._
+   .-'66||        ,;'
+  (O  ,:|/.----..;'
+   `=' \_  ____  |
+        |||   |||
+        |||   |||
+        mm'   mm'
+  
+HEREDOC
+        puts Rainbow(pikachu).blue.bright
 end
 
 
@@ -24,20 +35,11 @@ def locate_or_create_pet(user)
                 pet = Pet.find_pet_by_user(user)
                 puts Rainbow("#{pet.name} has missed you!").underline.blue.bold
         end
+
 end    
 
-<<<<<<< HEAD
-=======
-# def instructions
-#         puts "Enter the number corresponding to the action you would to perform?"
-#         puts "1. Pet Status"
-#         puts "2. Feed"
-#         puts "3. Play"
-#         puts "4. Skills and Level Status"
-#         puts "5. Exit game."
-# end
 
->>>>>>> User-experience
+
 def exit
         goodbye = Artii::Base.new :font => 'big'
         puts Rainbow(goodbye.asciify('Goodbye')).orange.bright.blink
@@ -46,11 +48,8 @@ end
 
 def game_options(user)
         prompt = TTY::Prompt.new
-<<<<<<< HEAD
-=======
         # binding.pry
         puts ""
->>>>>>> User-experience
         input = prompt.select("Please select the action you would like to perform.", %w(Pet-Status Feed Play Skills&Level Exit ))
         if input == "Pet-Status"
                 pet_status(user.pet)
@@ -93,11 +92,6 @@ def print_all_skills(user)
         else
        highest_skill_name = Skill.find_by(id: level).name
          puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
-<<<<<<< HEAD
-    
-=======
-        #  instructions
->>>>>>> User-experience
          game_options(user)
         end
   
@@ -175,7 +169,7 @@ def run
         end
         user = User.find_by(name: "#{input}")
         if user != nil
-         puts Rainbow("Welcome back, #{user.name}").italic
+         puts Rainbow("Welcome back, #{user.name}").italic.bold
         puts "---------------------------------"
          locate_or_create_pet(user)
          game_options(user)
@@ -187,13 +181,8 @@ def run
         end
      end
 
-<<<<<<< HEAD
 
   
-     
-=======
->>>>>>> User-experience
-
 
 # puts Rainbow(pikachu).red  
 a = Artii::Base.new :font => 'big'
