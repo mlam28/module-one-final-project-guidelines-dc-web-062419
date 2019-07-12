@@ -12,6 +12,10 @@ end
 def create_pet(user)
         puts "Please enter a name for your new companion."
         pet_name = gets.chomp.capitalize
+        if pet_name.downcase == "exit"
+                exit
+                abort
+        end
         pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
         puts Rainbow("Congrats! You are now the owner of #{pet_name}!").blue.bright
         pikachu = <<-HEREDOC
@@ -144,20 +148,11 @@ def validate_input
                
         elsif confirm == "exit"
                   exit
+                abort
           end
           User.find_by(name: "#{array[-2].capitalize}")
 end
- 
-#  def correct(input)
-#         confirm = validate_name
-#         #binding.pry
-#         if confirm.downcase == "yes"
-#               User.find_or_create_by(name: "#{input}")
-#         elsif confirm == "exit"
-#                 exit
-#         end
-#         User.find_by(name: "#{input}")
-#  end
+
 
 
 def run
@@ -165,7 +160,7 @@ def run
         input = gets.chomp.capitalize
         if input.downcase == 'exit'
                 exit
-                return
+                abort
         end
         user = User.find_by(name: "#{input}")
         if user != nil
