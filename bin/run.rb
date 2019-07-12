@@ -26,16 +26,6 @@ def locate_or_create_pet(user)
  
 end    
 
-def instructions
-        puts ""
-        # puts "Enter the number corresponding to the action you would to perform?"
-        # puts "1. Pet Status"
-        # puts "2. Feed"
-        # puts "3. Play"
-        # puts "4. Skills and Level Status"
-        # puts "5. Exit game."
-end
-
 def exit
         goodbye = Artii::Base.new :font => 'big'
         puts Rainbow(goodbye.asciify('Goodbye')).orange.bright.blink
@@ -108,32 +98,46 @@ def validate_input
         input
  end
 
- def validate_name
-        confirm = gets.chomp
+ def validate_name(input)
+        array = []
+        array << input
+        confirm = ""
         while !["yes", "exit"].include?(confirm)
-                puts "Type yes to confirm #{confirm}. 'exit' to exit."
+                puts "Type yes to confirm #{array[-1].capitalize}, or enter a new name. 'exit' to exit."
                 confirm = gets.chomp
+                array << confirm
         end
-        confirm
- end
- 
- def correct(input)
-        confirm = validate_name
-        if confirm == "yes"
-              User.create(name: "#{input}")
- 
+        array
+       
+        if confirm.downcase == "yes"
+              
+                User.find_or_create_by(name: "#{array[-2].capitalize}")
+               
         elsif confirm == "exit"
-                exit
-        end
-        User.find_by(name: "#{input}")
- end
+                  exit
+          end
+          User.find_by(name: "#{array[-2].capitalize}")
+end
  
-
+#  def correct(input)
+#         confirm = validate_name
+#         #binding.pry
+#         if confirm.downcase == "yes"
+#               User.find_or_create_by(name: "#{input}")
+#         elsif confirm == "exit"
+#                 exit
+#         end
+#         User.find_by(name: "#{input}")
+#  end
 
 
 def run
         greeting
         input = gets.chomp.capitalize
+        if input.downcase == 'exit'
+                exit
+                return
+        end
         user = User.find_by(name: "#{input}")
         if user != nil
          puts "Welcome back, #{user.name}"
@@ -142,13 +146,14 @@ def run
          game_options(user)
         end
         if user == nil
-         puts "Type yes to confirm the name #{input}, or input a new name. 'exit' to exit."
-          user = correct(input)
-          locate_or_create_pet(user)
-           game_options(user)
+          user =  validate_name(input)
+           locate_or_create_pet(user)
+            game_options(user)
         end
      end
 
+
+  
      
 
 
