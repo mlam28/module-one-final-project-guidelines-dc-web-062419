@@ -15,8 +15,8 @@ class Question < ActiveRecord::Base
         questions = []
           self.all.each do |question|
             if question.difficulty == level 
-              puts "Enter the letter that matches your choice."
-              puts question.question
+              puts Rainbow("Enter the letter that matches your choice.").italic.red
+              puts Rainbow(question.question).bold
               questions << question
               loop do
                 answer = gets.chomp.downcase

@@ -31,6 +31,7 @@ GEM
     pastel (0.7.3)
       equatable (~> 0.6)
       tty-color (~> 0.5)
+    progressbar (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -62,11 +63,6 @@ GEM
       tty-cursor (~> 0.7)
     tty-color (0.5.0)
     tty-cursor (0.7.0)
-    tty-progressbar (0.17.0)
-      strings-ansi (~> 0.1.0)
-      tty-cursor (~> 0.7)
-      tty-screen (~> 0.7)
-      unicode-display_width (~> 1.6)
     tty-prompt (0.19.0)
       necromancer (~> 0.5.0)
       pastel (~> 0.7.0)
@@ -88,13 +84,13 @@ PLATFORMS
 DEPENDENCIES
   artii (~> 2.1, >= 2.1.2)
   lolcat (~> 99.9, >= 99.9.20)
+  progressbar (~> 0.21.0)
   pry
-  rainbow (~> 3.0)
+  rainbow
   require_all
   sinatra-activerecord
   sqlite3
   tty-box
-  tty-progressbar
   tty-prompt
 
 BUNDLED WITH

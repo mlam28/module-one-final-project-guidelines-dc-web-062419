@@ -1,6 +1,8 @@
 require_relative '../config/environment'
 require "pry"
 require 'artii'
+require 'rainbow'
+
 
 
 def greeting
@@ -20,20 +22,20 @@ def locate_or_create_pet(user)
                 create_pet(user)
         else
                 pet = Pet.find_pet_by_user(user)
-                puts "#{pet.name} has missed you!"
+                puts Rainbow("#{pet.name} has missed you!").underline.blue.bold
         end
  
  
 end    
 
-def instructions
-        puts "Enter the number corresponding to the action you would to perform?"
-        puts "1. Pet Status"
-        puts "2. Feed"
-        puts "3. Play"
-        puts "4. Skills and Level Status"
-        puts "5. Exit game."
-end
+# def instructions
+#         puts "Enter the number corresponding to the action you would to perform?"
+#         puts "1. Pet Status"
+#         puts "2. Feed"
+#         puts "3. Play"
+#         puts "4. Skills and Level Status"
+#         puts "5. Exit game."
+# end
 
 def exit
         goodbye = Artii::Base.new :font => 'big'
@@ -45,6 +47,7 @@ end
 def game_options(user)
         prompt = TTY::Prompt.new
         # binding.pry
+        puts ""
         input = prompt.select("Please select the action you would like to perform.", %w(Pet-Status Feed Play Skills&Level Exit ))
         if input == "Pet-Status"
                 pet_status(user.pet)
@@ -88,16 +91,30 @@ def print_all_skills(user)
         else
        highest_skill_name = Skill.find_by(id: level).name
          puts "You are currently at level #{level}, #{highest_skill_name}, out of 5 levels."
-         instructions
+        #  instructions
          game_options(user)
         end
   
   end
 
+
+
 def pet_status(pet)
-        puts "Name: #{pet.name }"
-        puts "Happiness: #{pet.happiness}"
-        puts "Hunger: #{pet.hunger}"
+pikachu = <<-HEREDOC
+      _._
+   .-'66||        ,;'
+  (O  ,:|/.----..;'
+   `=' \_  ____  |
+        |||   |||
+        |||   |||
+        mm'   mm'
+  
+HEREDOC
+        puts Rainbow(pikachu).blue.bright
+        puts ""
+        puts "Name: #{Rainbow(pet.name).bold.bright.blue }"
+        puts "Happiness: #{Rainbow(pet.happiness).bold.bright.blue}"
+        puts "Hunger: #{Rainbow(pet.hunger).bold.bright.blue}"
         game_options(pet.user)
 end
 
@@ -139,8 +156,8 @@ def run
      
         user = User.find_by(name: "#{input}")
         if user != nil
-         puts "Welcome back, #{user.name}"
-        puts "************************************"
+         puts Rainbow("Welcome back, #{user.name}").italic
+        puts "---------------------------------"
          locate_or_create_pet(user)
         #  instructions
          game_options(user)
@@ -156,9 +173,9 @@ def run
      
      end
 
-     
 
 
+# puts Rainbow(pikachu).red  
 a = Artii::Base.new :font => 'big'
 puts Rainbow(a.asciify('Tamagotchi Pets')).blue.bright.blink
 run

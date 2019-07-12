@@ -37,7 +37,7 @@ class Pet < ActiveRecord::Base
       elsif new_happiness <= 25
         self.happiness += 5
       end
-      puts "Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}"
+      puts Rainbow("Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}").bold
       game_options(self.user)
     end
 
@@ -69,7 +69,7 @@ class Pet < ActiveRecord::Base
         puts "Sorry, your pet has died due to hunger or depression. You should take better care of it."
         exit
       else
-      puts "Your current hunger level is #{self.hunger}, happiness is #{self.happiness}."
+      puts Rainbow("Your current hunger level is #{self.hunger}, happiness is #{self.happiness}.").italic
     end
   end
     
