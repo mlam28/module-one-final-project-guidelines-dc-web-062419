@@ -12,8 +12,7 @@ def create_pet(user)
         pet_name = gets.chomp.capitalize
         pet = Pet.create(name: "#{pet_name}", hunger: 25, happiness: 25, user_id: user.id)
         puts "Congrats! You are now the owner of #{pet_name}!"
-         end
-     end
+end
 
 
 def locate_or_create_pet(user)
