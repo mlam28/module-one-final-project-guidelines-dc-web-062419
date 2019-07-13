@@ -4,11 +4,11 @@ class Pet < ActiveRecord::Base
     has_many :pet_skills
     has_many :skills, through: :pet_skills
 
-    def self.find_pet_by_user(user)   #class method to find pet by user instance
+    def self.find_pet_by_user(user)   
        Pet.find_by(user_id: user.id)
     end
     
-    def self.find_pet_skills(user)     #uses above method to find pet skills by passing in user instance
+    def self.find_pet_skills(user)     
       user.pet.pet_skills
     end
 
@@ -37,7 +37,7 @@ class Pet < ActiveRecord::Base
       elsif new_happiness <= 25
         self.happiness += 5
       end
-      puts Rainbow("Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}").bold
+      puts "Your pet has been fed! Its hunger level is currently #{self.hunger} and happiness is #{self.happiness}"
       game_options(self.user)
     end
 
@@ -49,9 +49,6 @@ class Pet < ActiveRecord::Base
     def make_hungry
       self.hunger -= 5
       self.save
-    end
-
-    def make_unhappy
     end
 
     def make_unhappy
@@ -69,7 +66,7 @@ class Pet < ActiveRecord::Base
         puts "Sorry, your pet has died due to hunger or depression. You should take better care of it."
         exit
       else
-      puts Rainbow("Your current hunger level is #{self.hunger}, happiness is #{self.happiness}.").italic
+      puts "Your current hunger level is #{self.hunger}, happiness is #{self.happiness}."
     end
   end
     

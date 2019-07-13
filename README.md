@@ -29,6 +29,5 @@ Lisa Antwi Adjei and Michelle Lam
 #### License
 This project is licensed under the MIT License--please see license.txt file for details.
 
-#### Contributers Guide
-There were many features that we did not have time to implement due to time constraints on this project. Contributors are welcome to improve and tweak the program however you like, but please also credit the original developers. We would love to see what other developers contribute to this program.  Please contact shelly2.lam2@gmail.com to let us know of your achievements. 
+
 
