@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
         end
     end
 
-    def find_highest_skill #returns highest skill_id
+    def find_highest_skill 
         self.pet.pet_skills.maximum("skill_id")
     end
    

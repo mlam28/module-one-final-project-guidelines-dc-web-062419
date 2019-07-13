@@ -52,7 +52,7 @@ end
 
 def game_options(user)
         prompt = TTY::Prompt.new
-        # binding.pry
+
         puts ""
         input = prompt.select("Please select the action you would like to perform.", %w(Pet-Status Feed Play Skills&Level Exit ))
         if input == "Pet-Status"
@@ -176,10 +176,7 @@ def run
         end
      end
 
-
   
-
-# puts Rainbow(pikachu).red  
 a = Artii::Base.new :font => 'big'
 puts Rainbow(a.asciify('Tamagotchi Pets')).blue.bright.blink
 run
